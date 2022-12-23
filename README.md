@@ -26,3 +26,5 @@ view.trailingAnchor.constraint(equalToSystemSpacingAfter: someView.trailingAncho
 
 [4] intrinsicContentSize
 - 뷰의 default width | height
+
+[5] masksToBounds = false 는 clipsToBounds = true 랑 기능이 같다.
