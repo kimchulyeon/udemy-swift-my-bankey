@@ -15,7 +15,9 @@ window?.rootViewController = LoginViewController()
 [2] equlToSystemSpacingAfter
 - 출발지점 => 도착지점으로 생각
 - multiplier의 1은 8과 같다
-- ex) view.trailingAnchor.constraint(equalToSystemSpacingAfter: someView.trailingAnchor, multiplier: 1).isActive = true
+```
+view.trailingAnchor.constraint(equalToSystemSpacingAfter: someView.trailingAnchor, multiplier: 1).isActive = true
+```
 
 [3]
 UITextField Delegate 메소드
