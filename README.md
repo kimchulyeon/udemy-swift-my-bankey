@@ -19,8 +19,10 @@ window?.rootViewController = LoginViewController()
 view.trailingAnchor.constraint(equalToSystemSpacingAfter: someView.trailingAnchor, multiplier: 1).isActive = true
 ```
 
-[3]
-UITextField Delegate 메소드
+[3] UITextField Delegate 메소드
 - textFieldShouldReturn
 - textFieldShouldEndEditing
 - textFieldDidEndEditing
+
+[4] intrinsicContentSize
+- 뷰의 default width | height
