@@ -4,17 +4,19 @@ class LoginView: UIView {
 
 	//MARK: - Properties
 
-	private let usernameTextField: UITextField = {
+	let usernameTextField: UITextField = {
 		let tf = UITextField()
 		tf.translatesAutoresizingMaskIntoConstraints = false
 		tf.placeholder = "Username"
+		tf.autocapitalizationType = .none
 		return tf
 	}()
-	private let passwordTextField: UITextField = {
+	let passwordTextField: UITextField = {
 		let tf = UITextField()
 		tf.translatesAutoresizingMaskIntoConstraints = false
 		tf.isSecureTextEntry = true
 		tf.placeholder = "Password"
+		tf.autocapitalizationType = .none
 		return tf
 	}()
 	private let inputFieldStackView: UIStackView = {
@@ -84,7 +86,8 @@ extension LoginView: UITextFieldDelegate {
 		return true
 	}
 	func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-		return textField.text != "" ? true : false
+//		return textField.text != "" ? true : false
+		return true
 	}
 	func textFieldDidEndEditing(_ textField: UITextField) {
 
