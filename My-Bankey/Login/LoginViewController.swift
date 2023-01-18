@@ -57,8 +57,11 @@ class LoginViewController: UIViewController {
 		} else {
 			errorMessage.isHidden = true
 			errorMessage.text = ""
-			if username == "test@test.com" && password == "123456" {
+			if username == "test" && password == "123" {
 				loginButton.configuration?.showsActivityIndicator = true
+				let vc = OnboardingContainerViewController()
+				vc.modalPresentationStyle = .fullScreen
+				present(vc, animated: false)
 			} else {
 				errorMessage.isHidden = false
 				errorMessage.text = "Wrong Username / Password"
