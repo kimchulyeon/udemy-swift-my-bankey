@@ -10,6 +10,7 @@
 		6E0ACE3D297916CA00F1F1EE /* DummyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0ACE3C297916CA00F1F1EE /* DummyViewController.swift */; };
 		6E0ACE402979235500F1F1EE /* LocalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0ACE3F2979235500F1F1EE /* LocalState.swift */; };
 		6E0ACE42297938C100F1F1EE /* UIViewController+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0ACE41297938C100F1F1EE /* UIViewController+Utils.swift */; };
+		6E0ACE4429793C4F00F1F1EE /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0ACE4329793C4F00F1F1EE /* MainViewController.swift */; };
 		6E69F77A29553AA700BCF3EB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E69F77929553AA700BCF3EB /* AppDelegate.swift */; };
 		6E69F77C29553AA700BCF3EB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E69F77B29553AA700BCF3EB /* SceneDelegate.swift */; };
 		6E69F77E29553AA700BCF3EB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E69F77D29553AA700BCF3EB /* LoginViewController.swift */; };
@@ -23,6 +24,7 @@
 		6E0ACE3C297916CA00F1F1EE /* DummyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyViewController.swift; sourceTree = "<group>"; };
 		6E0ACE3F2979235500F1F1EE /* LocalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalState.swift; sourceTree = "<group>"; };
 		6E0ACE41297938C100F1F1EE /* UIViewController+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Utils.swift"; sourceTree = "<group>"; };
+		6E0ACE4329793C4F00F1F1EE /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		6E69F77629553AA700BCF3EB /* My-Bankey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "My-Bankey.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E69F77929553AA700BCF3EB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6E69F77B29553AA700BCF3EB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 				6E0ACE3E2979234400F1F1EE /* Utils */,
 				6E69F79029553E6F00BCF3EB /* Login */,
 				6E77C4392977DE1700402C66 /* Onboarding */,
+				6E0ACE4329793C4F00F1F1EE /* MainViewController.swift */,
 			);
 			path = "My-Bankey";
 			sourceTree = "<group>";
@@ -189,6 +192,7 @@
 				6E77C43B2977DE5300402C66 /* OnboardingContainerViewController.swift in Sources */,
 				6E69F77C29553AA700BCF3EB /* SceneDelegate.swift in Sources */,
 				6E0ACE402979235500F1F1EE /* LocalState.swift in Sources */,
+				6E0ACE4429793C4F00F1F1EE /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
