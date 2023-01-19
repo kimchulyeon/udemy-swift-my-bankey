@@ -1,22 +1,40 @@
 import UIKit
 
+//MARK: - protocol ============================================
+protocol OnboardingContainerViewControllerDelegate: AnyObject {
+	func didFinishOnboarding(_ sender: OnboardingContainerViewController)
+}
+
 class OnboardingContainerViewController: UIViewController {
 
 	//MARK: - properties ============================================
 	let pageViewController: UIPageViewController
 	var pages = [UIViewController]()
-	var currentVC: UIViewController {
-		didSet {
-		}
-	}
+	var currentVC: UIViewController
+	lazy var closeButton: UIButton = {
+		let btn = UIButton(type: .system)
+		btn.translatesAutoresizingMaskIntoConstraints = false
+		btn.setTitle("Close", for: .normal)
+		btn.addTarget(self, action: #selector(closeTapped), for: .touchUpInside)
+		return btn
+	}()
+	lazy var doneButton: UIButton = {
+		let btn = UIButton(type: .system)
+		btn.translatesAutoresizingMaskIntoConstraints = false
+		btn.setTitle("Done", for: .normal)
+		btn.addTarget(self, action: #selector(doneTapped), for: .touchUpInside)
+		return btn
+	}()
+
+	weak var delegate: OnboardingContainerViewControllerDelegate?
 
 	//MARK: - lifecycle ============================================
 	override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
 		self.pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
 
-		let page1 = ViewController1()
-		let page2 = ViewController2()
-		let page3 = ViewController3()
+		let page1 = OnboardingViewController(heroImageName: "delorean", titleText: "Bankey is faster, easier to use, and has a brand new look and feel that will make you feel like you are back in 1989")
+		let page2 = OnboardingViewController(heroImageName: "world", titleText: "Move your money around the world quickly and securely.")
+		let page3 = OnboardingViewController(heroImageName: "thumbs", titleText: "Learn more at www.bankey.com")
 
 		pages.append(page1)
 		pages.append(page2)
@@ -34,15 +52,17 @@ class OnboardingContainerViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		view.backgroundColor = .systemPurple
+		configurePageView()
+		layout()
+	}
 
-		addChild(pageViewController)
-		view.addSubview(pageViewController.view)
-		pageViewController.didMove(toParent: self)
+	//MARK: - func ============================================
+	func layout() {
+		view.backgroundColor = .lightGray
+		view.addSubview(closeButton)
+		view.addSubview(doneButton)
 
-		pageViewController.dataSource = self
-		pageViewController.view.translatesAutoresizingMaskIntoConstraints = false
-
+		// page view controller
 		NSLayoutConstraint.activate([
 			view.topAnchor.constraint(equalTo: pageViewController.view.topAnchor),
 			view.leadingAnchor.constraint(equalTo: pageViewController.view.leadingAnchor),
@@ -50,8 +70,39 @@ class OnboardingContainerViewController: UIViewController {
 			view.bottomAnchor.constraint(equalTo: pageViewController.view.bottomAnchor),
 		])
 
+		// close button
+		NSLayoutConstraint.activate([
+			closeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+			closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16)
+		])
+		
+		// done button
+		NSLayoutConstraint.activate([
+			doneButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+			doneButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24)
+		])
+	}
+
+	func configurePageView() {
+		addChild(pageViewController)
+		view.addSubview(pageViewController.view)
+		pageViewController.didMove(toParent: self)
+
+		pageViewController.dataSource = self
+		
+		pageViewController.view.translatesAutoresizingMaskIntoConstraints = false
+
 		pageViewController.setViewControllers([pages.first!], direction: .forward, animated: false, completion: nil)
 		currentVC = pages.first!
+	}
+	
+
+	//MARK: - selector ============================================
+	@objc func closeTapped() {
+		delegate?.didFinishOnboarding(self)
+	}
+	@objc func doneTapped() {
+		delegate?.didFinishOnboarding(self)
 	}
 }
 
@@ -84,27 +135,5 @@ extension OnboardingContainerViewController: UIPageViewControllerDataSource {
 
 	func presentationIndex(for pageViewController: UIPageViewController) -> Int {
 		return pages.firstIndex(of: self.currentVC) ?? 0
-	}
-}
-
-// MARK: - ViewControllers
-class ViewController1: UIViewController {
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		view.backgroundColor = .systemRed
-	}
-}
-
-class ViewController2: UIViewController {
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		view.backgroundColor = .systemGreen
-	}
-}
-
-class ViewController3: UIViewController {
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		view.backgroundColor = .systemBlue
 	}
 }

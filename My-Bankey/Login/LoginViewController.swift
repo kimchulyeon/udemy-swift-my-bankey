@@ -1,5 +1,15 @@
 import UIKit
 
+
+//MARK: - protocol ============================================
+protocol LoginViewControllerDelegate: AnyObject {
+	func didLogin(_ sender: LoginViewController) // LoginViewController 데이터를 전달
+}
+
+protocol LogoutDelegate: AnyObject {
+	func didLogout()
+}
+
 class LoginViewController: UIViewController {
 
 	//MARK: - Properties
@@ -19,7 +29,7 @@ class LoginViewController: UIViewController {
 		btn.configuration = .filled()
 		btn.configuration?.imagePadding = 8
 		btn.setTitle("Sign In", for: .normal)
-		btn.addTarget(self, action: #selector(onClickSigninButton), for: .touchUpInside)
+		btn.addTarget(self, action: #selector(tappedSigninButton), for: .touchUpInside)
 		return btn
 	}()
 	private let errorMessage: UILabel = {
@@ -35,6 +45,7 @@ class LoginViewController: UIViewController {
 	var username: String? { return loginView.usernameTextField.text }
 	var password: String? { return loginView.passwordTextField.text }
 
+	weak var delegate: LoginViewControllerDelegate?
 
 	//MARK: - LifeCycle
 	override func viewDidLoad() {
@@ -43,9 +54,17 @@ class LoginViewController: UIViewController {
 		style()
 		layout()
 	}
+	
+	override func viewDidDisappear(_ animated: Bool) {
+		super.viewDidDisappear(animated)
+		
+		loginView.usernameTextField.text = nil
+		loginView.passwordTextField.text = nil
+		loginButton.configuration?.showsActivityIndicator = false
+	}
 
 	//MARK: - Selectors
-	@objc func onClickSigninButton() {
+	@objc func tappedSigninButton() {
 		guard let username = username, let password = password else {
 			assertionFailure("Username / Password should never be nil")
 			return
@@ -59,9 +78,12 @@ class LoginViewController: UIViewController {
 			errorMessage.text = ""
 			if username == "test" && password == "123" {
 				loginButton.configuration?.showsActivityIndicator = true
-				let vc = OnboardingContainerViewController()
-				vc.modalPresentationStyle = .fullScreen
-				present(vc, animated: false)
+				//let vc = OnboardingContainerViewController()
+				
+				delegate?.didLogin(self)
+				
+				//vc.modalPresentationStyle = .fullScreen
+				//present(vc, animated: false)
 			} else {
 				errorMessage.isHidden = false
 				errorMessage.text = "Wrong Username / Password"

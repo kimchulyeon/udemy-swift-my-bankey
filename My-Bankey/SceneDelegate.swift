@@ -11,14 +11,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 	var window: UIWindow?
 
+	let loginViewController = LoginViewController()
+	let onboardingContainerViewController = OnboardingContainerViewController()
+	let dummyViewController = DummyViewController()
+
+	// var hasOnboared: Bool = false UserDefaults로 대체
 
 	func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
 		guard let scene = scene as? UIWindowScene else { return }
 		window = UIWindow(windowScene: scene)
 		window?.makeKeyAndVisible()
 		window?.backgroundColor = .systemBackground
-		//window?.rootViewController = LoginViewController()
-		window?.rootViewController = OnboardingContainerViewController()
+
+		loginViewController.delegate = self
+		onboardingContainerViewController.delegate = self
+		dummyViewController.delegate = self
+
+		window?.rootViewController = loginViewController
+//		window?.rootViewController = OnboardingContainerViewController()
 	}
 
 	func sceneDidDisconnect(_ scene: UIScene) {
@@ -48,7 +58,34 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		// Use this method to save data, release shared resources, and store enough scene-specific state information
 		// to restore the scene back to its current state.
 	}
-
-
 }
 
+//MARK: - delegate ============================================
+extension SceneDelegate: LoginViewControllerDelegate {
+	func didLogin(_ sender: LoginViewController) {
+		LocalState.hasOnboared ? setRootViewController(dummyViewController) : setRootViewController(onboardingContainerViewController)
+	}
+}
+extension SceneDelegate: OnboardingContainerViewControllerDelegate {
+	func didFinishOnboarding(_ sender: OnboardingContainerViewController) {
+		LocalState.hasOnboared = true
+		setRootViewController(dummyViewController)
+	}
+}
+
+extension SceneDelegate: LogoutDelegate {
+	func didLogout() {
+		setRootViewController(loginViewController)
+	}
+}
+
+//MARK: - func ============================================
+extension SceneDelegate {
+	func setRootViewController(_ vc: UIViewController, animated: Bool = true) {
+		guard animated, let window = self.window else { return }
+
+		window.rootViewController = vc
+		window.makeKeyAndVisible()
+		UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil)
+	}
+}
