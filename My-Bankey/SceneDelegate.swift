@@ -7,6 +7,8 @@
 
 import UIKit
 
+let appColor: UIColor = .systemTeal
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 	var window: UIWindow?
@@ -14,6 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	let loginViewController = LoginViewController()
 	let onboardingContainerViewController = OnboardingContainerViewController()
 	let dummyViewController = DummyViewController()
+	let mainViewController = MainViewController()
 
 	// var hasOnboared: Bool = false UserDefaults로 대체
 
@@ -27,8 +30,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		onboardingContainerViewController.delegate = self
 		dummyViewController.delegate = self
 
-		window?.rootViewController = loginViewController
-//		window?.rootViewController = OnboardingContainerViewController()
+		//window?.rootViewController = loginViewController
+		//window?.rootViewController = mainViewController
+		window?.rootViewController = AccountSummaryViewController()
+		//window?.rootViewController = OnboardingContainerViewController()
 	}
 
 	func sceneDidDisconnect(_ scene: UIScene) {

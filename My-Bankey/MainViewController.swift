@@ -1,6 +1,6 @@
 import UIKit
 
-class MainViewController: UIViewController {
+class MainViewController: UITabBarController {
 	//MARK: - Properties
 	
 	//MARK: - Lifecycle
@@ -8,6 +8,7 @@ class MainViewController: UIViewController {
 		super.viewDidLoad()
 		
 		setupViews()
+		setupTabBar()
 	}
 	
 	//MARK: - func ============================================
@@ -24,7 +25,7 @@ class MainViewController: UIViewController {
 		let moneyNC = UINavigationController(rootViewController: moneyVC)
 		let moreNC = UINavigationController(rootViewController: moreVC)
 		
-		summaryNC.navigationBar.barTintColor = UIColor(named: "AppColor")
+		summaryNC.navigationBar.barTintColor = appColor
 		hideNavigationBarLine(summaryNC.navigationBar)
 		
 		let tabBarList = [summaryNC, moneyNC, moreNC]
@@ -38,5 +39,22 @@ class MainViewController: UIViewController {
 		navigationBar.setBackgroundImage(img, for: .default)
 		navigationBar.isTranslucent = false
 	}
+	
+	func setupTabBar() {
+		tabBar.tintColor = appColor
+		tabBar.isTranslucent = false
+	}
 }
 
+
+class MoveMoneyViewController: UIViewController {
+	override func viewDidLoad() {
+		view.backgroundColor = .lightGray
+	}
+}
+
+class MoreViewController: UIViewController {
+	override func viewDidLoad() {
+		view.backgroundColor = .blue
+	}
+}
