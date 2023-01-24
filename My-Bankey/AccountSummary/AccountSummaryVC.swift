@@ -1,6 +1,6 @@
 import UIKit
 
-class AccountSummaryViewController: UIViewController {
+class AccountSummaryVC: UIViewController {
 	//MARK: - Properties
 	lazy var tableView: UITableView = {
 		let tv = UITableView()
@@ -30,11 +30,12 @@ class AccountSummaryViewController: UIViewController {
 	}
 	
 	func setupTableView() {
+		tableView.register(AccountSummaryCell.self, forCellReuseIdentifier: AccountSummaryCell.reuseID)
+		tableView.rowHeight = AccountSummaryCell.rowHeight
+		tableView.tableFooterView = UIView()
+		
 		view.addSubview(tableView)
-		tableView.backgroundColor = .lightGray
-		
-		//tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-		
+		// table view
 		NSLayoutConstraint.activate([
 			tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
 			tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -57,19 +58,17 @@ class AccountSummaryViewController: UIViewController {
 
 
 //MARK: - delegate ============================================
-extension AccountSummaryViewController: UITableViewDelegate {
+extension AccountSummaryVC: UITableViewDelegate {
 	
 }
 
-extension AccountSummaryViewController: UITableViewDataSource {
+extension AccountSummaryVC: UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return games.count
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		//let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-		let cell = UITableViewCell()
-		cell.textLabel?.text = games[indexPath.row]
+		guard let cell = tableView.dequeueReusableCell(withIdentifier: AccountSummaryCell.reuseID, for: indexPath) as? AccountSummaryCell else { return UITableViewCell() }
 		return cell
 	}
 }
