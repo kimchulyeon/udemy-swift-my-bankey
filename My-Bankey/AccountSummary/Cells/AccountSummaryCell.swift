@@ -52,6 +52,13 @@ class AccountSummaryCell: UITableViewCell {
 		return label
 	}()
 	
+	let chevronImageView: UIImageView = {
+		let img = UIImageView()
+		img.translatesAutoresizingMaskIntoConstraints = false
+		img.image = UIImage(systemName: "chevron.right")?.withTintColor(appColor, renderingMode: .alwaysOriginal)
+		return img
+	}()
+	
 	//MARK: - Lifecycle
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -71,6 +78,12 @@ extension AccountSummaryCell {
 		contentView.addSubview(divider)
 		contentView.addSubview(nameLabel)
 		
+		balanceStackView.addArrangedSubview(balanceLabel)
+		balanceStackView.addArrangedSubview(balanceAmountLabel)
+		
+		contentView.addSubview(balanceStackView)
+		contentView.addSubview(chevronImageView)
+		
 		// type label
 		NSLayoutConstraint.activate([
 			typeLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16),
@@ -87,6 +100,17 @@ extension AccountSummaryCell {
 		NSLayoutConstraint.activate([
 			nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
 			nameLabel.topAnchor.constraint(equalTo: divider.bottomAnchor, constant: 16),
+		])
+		// balance stack view
+		NSLayoutConstraint.activate([
+			balanceStackView.topAnchor.constraint(equalTo: divider.bottomAnchor, constant: 0),
+			balanceStackView.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor, constant: 4),
+			balanceStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
+		])
+		// chevron image
+		NSLayoutConstraint.activate([
+			chevronImageView.topAnchor.constraint(equalTo: divider.bottomAnchor, constant: 8),
+			chevronImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
 		])
 	}
 }
