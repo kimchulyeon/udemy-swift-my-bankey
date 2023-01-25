@@ -15,7 +15,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 	let loginViewController = LoginViewController()
 	let onboardingContainerViewController = OnboardingContainerViewController()
-	let dummyViewController = DummyViewController()
 	let mainViewController = MainViewController()
 
 	// var hasOnboared: Bool = false UserDefaults로 대체
@@ -28,12 +27,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 		loginViewController.delegate = self
 		onboardingContainerViewController.delegate = self
-		dummyViewController.delegate = self
+		
+		mainViewController.setStatusBar()
 
-		//window?.rootViewController = loginViewController
+		UINavigationBar.appearance().isTranslucent = false
+		UINavigationBar.appearance().backgroundColor = appColor
+		
 		window?.rootViewController = mainViewController
-		//window?.rootViewController = AccountSummaryViewController()
-		//window?.rootViewController = OnboardingContainerViewController()
 	}
 
 	func sceneDidDisconnect(_ scene: UIScene) {
@@ -68,13 +68,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //MARK: - delegate ============================================
 extension SceneDelegate: LoginViewControllerDelegate {
 	func didLogin(_ sender: LoginViewController) {
-		LocalState.hasOnboared ? setRootViewController(dummyViewController) : setRootViewController(onboardingContainerViewController)
+		LocalState.hasOnboared ? setRootViewController(mainViewController) : setRootViewController(onboardingContainerViewController)
 	}
 }
 extension SceneDelegate: OnboardingContainerViewControllerDelegate {
 	func didFinishOnboarding(_ sender: OnboardingContainerViewController) {
 		LocalState.hasOnboared = true
-		setRootViewController(dummyViewController)
+		setRootViewController(mainViewController)
 	}
 }
 
