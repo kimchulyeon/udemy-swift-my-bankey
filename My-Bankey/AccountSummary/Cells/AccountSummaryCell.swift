@@ -2,9 +2,26 @@ import UIKit
 
 class AccountSummaryCell: UITableViewCell {
 	
+	enum AccountType: String {
+		case Banking
+		case CreditCard
+		case Investment
+	}
+	
+	struct ViewModel {
+		let accountType: AccountType
+		let accountName: String
+		let balance: Decimal
+
+		var balanceAsAttributedString: NSAttributedString {
+			return CurrencyFormatter().makeAttributedCurrency(balance)
+		}
+	}
+	let viewModel: ViewModel? = nil
+	
 	//MARK: - Properties
 	static let reuseID = "AccountSummaryCell"
-	static let rowHeight: CGFloat = 100
+	static let rowHeight: CGFloat = 112
 	
 	let typeLabel: UILabel = {
 		let label = UILabel()
@@ -44,11 +61,11 @@ class AccountSummaryCell: UITableViewCell {
 		label.text = "Some balance"
 		return label
 	}()
-	let balanceAmountLabel: UILabel = {
+	lazy var balanceAmountLabel: UILabel = {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.textAlignment = .right
-		label.text = "$929,466.54"
+		label.attributedText = makeFormattedBalance(dollars: "XXX.XX", cents: "XX")
 		return label
 	}()
 	
@@ -68,6 +85,40 @@ class AccountSummaryCell: UITableViewCell {
 	
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
+	}
+	
+	//MARK: - func ============================================
+	private func makeFormattedBalance(dollars: String, cents: String) -> NSMutableAttributedString {
+		let dollarSignAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .callout), .baselineOffset: 8]
+		let dollarAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .title1)]
+		let centAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .footnote), .baselineOffset: 8]
+		
+		let rootString = NSMutableAttributedString(string: "$", attributes: dollarSignAttributes)
+		let dollarString = NSMutableAttributedString(string: dollars, attributes: dollarAttributes)
+		let centString = NSMutableAttributedString(string: cents, attributes: centAttributes)
+		
+		rootString.append(dollarString)
+		rootString.append(centString)
+		
+		return rootString
+	}
+	
+	func configure(with vm: ViewModel) {
+		typeLabel.text = vm.accountType.rawValue
+		nameLabel.text = vm.accountName
+		balanceAmountLabel.attributedText = vm.balanceAsAttributedString
+		
+		switch vm.accountType {
+		case .Banking:
+			divider.backgroundColor = appColor
+			balanceLabel.text = "Current balance"
+		case .CreditCard:
+			divider.backgroundColor = .systemOrange
+			balanceLabel.text = "Balance"
+		case .Investment:
+			divider.backgroundColor = .systemPurple
+			balanceLabel.text = "Value"
+		}
 	}
 }
 
