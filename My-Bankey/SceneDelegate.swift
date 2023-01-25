@@ -33,7 +33,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		UINavigationBar.appearance().isTranslucent = false
 		UINavigationBar.appearance().backgroundColor = appColor
 		
-		window?.rootViewController = mainViewController
+		registerNotification()
+		
+		window?.rootViewController = loginViewController
 	}
 
 	func sceneDidDisconnect(_ scene: UIScene) {
@@ -84,13 +86,24 @@ extension SceneDelegate: LogoutDelegate {
 	}
 }
 
-//MARK: - func ============================================
+
 extension SceneDelegate {
-	func setRootViewController(_ vc: UIViewController, animated: Bool = true) {
+	//MARK: - func ============================================
+	private func setRootViewController(_ vc: UIViewController, animated: Bool = true) {
 		guard animated, let window = self.window else { return }
 
 		window.rootViewController = vc
 		window.makeKeyAndVisible()
 		UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil)
+	}
+	
+	private func registerNotification() {
+		NotificationCenter.default.addObserver(self, selector: #selector(logout), name: NSNotification.Name("Logout"), object: nil)
+	}
+	
+	
+	//MARK: - selector ============================================
+	@objc func logout() {
+		setRootViewController(loginViewController)
 	}
 }

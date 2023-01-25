@@ -19,6 +19,13 @@ class LoginView: UIView {
 		tf.autocapitalizationType = .none
 		return tf
 	}()
+	lazy var passwordToggleButton: UIButton = {
+		let btn = UIButton(type: .custom)
+		btn.setImage(UIImage(systemName: "eye.fill"), for: .normal)
+		btn.setImage(UIImage(systemName: "eye.slash.fill"), for: .selected)
+		btn.addTarget(self, action: #selector(togglePasswordView), for: .touchUpInside)
+		return btn
+	}()
 	private let inputFieldStackView: UIStackView = {
 		let stackView = UIStackView()
 		stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -49,6 +56,12 @@ class LoginView: UIView {
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
+	
+	//MARK: - selector ============================================
+	@objc func togglePasswordView() {
+		passwordTextField.isSecureTextEntry.toggle()
+		passwordToggleButton.isSelected.toggle()
+	}
 }
 
 //MARK: - Layout & Style
@@ -67,13 +80,17 @@ extension LoginView {
 		inputFieldStackView.addArrangedSubview(usernameTextField)
 		inputFieldStackView.addArrangedSubview(dividerLine)
 		inputFieldStackView.addArrangedSubview(passwordTextField)
+		
+		// input stack view
 		NSLayoutConstraint.activate([
 			inputFieldStackView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
 			inputFieldStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 1),
 			trailingAnchor.constraint(equalToSystemSpacingAfter: inputFieldStackView.trailingAnchor, multiplier: 1),
 			bottomAnchor.constraint(equalToSystemSpacingBelow: inputFieldStackView.bottomAnchor, multiplier: 1)
 		])
-		
+		// password toggle button
+		passwordTextField.rightView = passwordToggleButton
+		passwordTextField.rightViewMode = .always
 	}
 }
 

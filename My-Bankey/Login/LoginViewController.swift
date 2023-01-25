@@ -45,7 +45,13 @@ class LoginViewController: UIViewController {
 	var username: String? { return loginView.usernameTextField.text }
 	var password: String? { return loginView.passwordTextField.text }
 
+	
 	weak var delegate: LoginViewControllerDelegate?
+	
+	// animation
+	var titleLabelLeadingAnchor: NSLayoutConstraint?
+	var leadingEdgeOnScreen: CGFloat = 16
+	var leadingEdgeOffScreen: CGFloat = -1000
 
 	//MARK: - LifeCycle
 	override func viewDidLoad() {
@@ -61,6 +67,12 @@ class LoginViewController: UIViewController {
 		loginView.usernameTextField.text = nil
 		loginView.passwordTextField.text = nil
 		loginButton.configuration?.showsActivityIndicator = false
+	}
+	
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		
+		animate()
 	}
 
 	//MARK: - Selectors
@@ -90,6 +102,15 @@ class LoginViewController: UIViewController {
 			}
 		}
 	}
+	
+	//MARK: - func ============================================
+	private func animate() {
+		let animator1 = UIViewPropertyAnimator(duration: 0.25, curve: .easeInOut, animations: { [weak self] in
+			self?.titleLabelLeadingAnchor?.constant = self?.leadingEdgeOnScreen ?? 0
+			self?.view.layoutIfNeeded()
+		})
+		animator1.startAnimation()
+	}
 }
 
 
@@ -101,9 +122,11 @@ extension LoginViewController {
 		// title label
 		view.addSubview(titleLabel)
 		NSLayoutConstraint.activate([
-			titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+			titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 			titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 60)
 		])
+		titleLabelLeadingAnchor = titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leadingEdgeOffScreen)
+		titleLabelLeadingAnchor?.isActive = true
 		// input field
 		view.addSubview(loginView)
 		NSLayoutConstraint.activate([

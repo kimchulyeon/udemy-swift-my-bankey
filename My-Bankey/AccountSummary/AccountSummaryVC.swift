@@ -10,6 +10,11 @@ class AccountSummaryVC: UIViewController {
 		return tv
 	}()
 	let header = AccountSummaryHeaderView(frame: .zero)
+	lazy var logoutButton: UIBarButtonItem = {
+		let btn = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logoutTapped))
+		btn.tintColor = .label
+		return btn
+	}()
 
 	struct Profile {
 		let firstName: String
@@ -30,6 +35,7 @@ class AccountSummaryVC: UIViewController {
 	//MARK: - func ============================================
 	func setup() {
 		setupTableView()
+		setupNavigationBar()
 	}
 
 	func setupTableView() {
@@ -47,6 +53,10 @@ class AccountSummaryVC: UIViewController {
 			tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
 		])
 	}
+	
+	func setupNavigationBar() {
+		navigationItem.rightBarButtonItem = logoutButton
+	}
 
 	func setupTableHeaderView() {
 		var size = header.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
@@ -55,6 +65,11 @@ class AccountSummaryVC: UIViewController {
 		header.frame.size = size
 
 		tableView.tableHeaderView = header
+	}
+	
+	//MARK: - selector ============================================
+	@objc func logoutTapped() {
+		NotificationCenter.default.post(name: NSNotification.Name("Logout"), object: nil)
 	}
 }
 
